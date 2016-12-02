@@ -1,89 +1,111 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandLine;
 using Newtonsoft.Json;
 
 namespace Converter
 {
+
+    [Verb("add", HelpText = "Add file contents to the index.")]
+    class AddOptions
+    {
+        //normal options here
+    }
+    [Verb("commit", HelpText = "Record changes to the repository.")]
+    class CommitOptions
+    {
+        //normal options here
+    }
+    [Verb("clone", HelpText = "Clone a repository into a new directory.")]
+    class CloneOptions
+    {
+        //normal options here
+    }
+
     public class Program
     {
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            /*
-            if(args.Count() != 2)
-            {
-                Console.WriteLine("Need 2 arguments");
-                return;
-            }
-
-            // Path to input to convert
-            var path = args[0];
-
-            // m : monster
-            // s : spell
-            var type = args[1];
-            */
-
-            // Path to input to convert
-            var path = @"data/Spells.json";
-
-            // m : monster
-            // s : spell
-            var type = "s";
-
-
-            var text = System.IO.File.ReadAllText(path);
-
-            if(type == "s")
-            {
-                ConvertSpells(text);
-            }
-            else{
-                ConvertMonster(text);
-            }
+            return CommandLine.Parser.Default.ParseArguments<ConvertSpellOptions, ConvertMonsterOptions>(args)
+                .MapResult(
+                (ConvertSpellOptions opts) => ConvertSpells(opts),
+                (ConvertMonsterOptions opts) => ConvertMonster(opts),
+                errs => 1);
 
         }
 
-
-        private static void ConvertSpells(string text)
+        private static int ConvertSpells(ConvertSpellOptions options)
         {
-            var spells = JsonConvert.DeserializeObject<List<Spell>>(text);
-
-            var convertedSpells = new Dictionary<string, SpellOutput>();
-
-            foreach (var spell in spells)
+            try
             {
-                SpellOutput spelloutput;
-                if (convertedSpells.TryGetValue(spell.Name, out spelloutput))
+                var text =  System.IO.File.ReadAllText(options.InputFile);
+
+                var spells = JsonConvert.DeserializeObject<List<Spell>>(text);
+
+                var convertedSpells = new Dictionary<string, SpellOutput>();
+
+                foreach (var spell in spells)
                 {
-                    spelloutput.Class.Add(spell.Class);
+                    SpellOutput spelloutput;
+                    if (convertedSpells.TryGetValue(spell.Name, out spelloutput))
+                    {
+                        spelloutput.Class.Add(spell.Class);
+                    }
+                    else
+                    {
+                        spelloutput = SpellOutput.Convert(spell);
+                        convertedSpells.Add(spelloutput.Name, spelloutput);
+                    }
                 }
-                else
-                {
-                    spelloutput = SpellOutput.Convert(spell);
-                    convertedSpells.Add(spelloutput.Name, spelloutput);
-                }
+
+                var convertedSpellsJson = JsonConvert.SerializeObject(convertedSpells.Values.ToList());
+                System.IO.File.WriteAllText(options.OutputFile, convertedSpellsJson);
+
+                Console.WriteLine($"Convertion of {convertedSpells.Count()} spells completed successfully!");
+
+            }
+            catch (Exception e)
+            {
+                 Console.WriteLine($"Exception in spell conversion:");
+                 Console.WriteLine(e);
             }
 
-            var cleanSpells = JsonConvert.SerializeObject(convertedSpells.Values.ToList());
-            System.IO.File.WriteAllText("output/cleanSpells.json", cleanSpells);
+            
+            return 0;
         }
 
 
-        private static void ConvertMonster(string text)
+        private static int ConvertMonster(ConvertMonsterOptions options)
         {
-            var monsters = JsonConvert.DeserializeObject<List<Monster>>(text);
-
-            var convertedMonsters = new List<MonsterOutput>();
-
-            foreach (var monster in monsters)
+            try
             {
-                    var  monsterOutput = MonsterOutput.Convert(monster);
+                var text =  System.IO.File.ReadAllText(options.InputFile);
+
+                var monsters = JsonConvert.DeserializeObject<List<Monster>>(text);
+
+                var convertedMonsters = new List<MonsterOutput>();
+
+                foreach (var monster in monsters)
+                {
+                    var monsterOutput = MonsterOutput.Convert(monster);
                     convertedMonsters.Add(monsterOutput);
+                }
+
+                var convertedMonstersJson = JsonConvert.SerializeObject(convertedMonsters);
+                System.IO.File.WriteAllText(options.OutputFile, convertedMonstersJson);
+
+                Console.WriteLine($"Convertion of {convertedMonsters.Count()} monsters completed successfully!");
+
+            }
+            catch (Exception e)
+            {
+                 Console.WriteLine($"Exception in monster conversion:");
+                 Console.WriteLine(e);
+                return 1;
             }
 
-            var converted = JsonConvert.SerializeObject(convertedMonsters);
-            System.IO.File.WriteAllText("output/cleanMonsters.json", converted);
+            return 0;
         }
     }
 }
