@@ -1,4 +1,4 @@
-# EncounterHelperJsonConverter
+# Encounter-Helper Json Converter
 
 For my [EncouterHelper project](https://github.com/PrincessMadMath/EncountersHelper). 
 I need a specific format for monster and spell (to be able to show the more information possible),
