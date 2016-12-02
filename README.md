@@ -34,8 +34,8 @@ In no specific order
 
 * Extract spell school
 * Extract spell DC and dice
-* Refactor the whole conversion things
-** To support different input files
-* Auto-generate conversion skeleton
-** Avoid initial burden in input and output are similar (avoid copy paste)
+* Refactor the whole conversion things  
+-- To support different input files
+* Auto-generate conversion skeleton  
+-- Avoid initial burden in input and output are similar (avoid copy paste)
 * Add Json Schema to help support and detect different input format
