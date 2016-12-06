@@ -5,7 +5,8 @@ namespace Converter
 {
     public class Components
     {
-        private static Regex ingredientRetriever = new Regex(@"^\((.*)\)");
+        // Extract the insides of the (...) if it start the description
+        private static Regex ingredientRetriever = new Regex(@"^\(([^\)]*)\)");
         private static Regex goldRetriver = new Regex(@"(\d+,?\d+)\s*gp");
 
         public bool Somatic { get; set; }
