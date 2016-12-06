@@ -4,8 +4,6 @@
 # Project-specific
 
 output/
-# Not sure about licensing wizard of the coast contents
-data/
 
 # User-specific files
 *.suo
