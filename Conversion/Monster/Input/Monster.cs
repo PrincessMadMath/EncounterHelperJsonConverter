@@ -46,9 +46,10 @@ namespace Converter
         // Skills
 
         //** strength
-        public string Acrobatics { get; set; }
+        public string Athletics { get; set; }
 
         //** dexterity
+         public string Acrobatics { get; set; }
         public string Sleight_of_hand { get; set; }
         public string Stealth { get; set; }
 

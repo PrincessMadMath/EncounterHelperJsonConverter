@@ -32,7 +32,7 @@ namespace Converter
         public List<SavingThrowDetail> Saves { get; set; }
 
         // Skills
-        public Skills Skills {get; set;}
+        public List<SkillDetail> Skills {get; set;}
 
 
         // Resistances
@@ -76,7 +76,7 @@ namespace Converter
                 Saves = SavingThrow.GetSave(monsterToConvert),
 
                 // Skills
-                Skills = Skills.GetSkills(monsterToConvert),
+                Skills = SkillsExtractor.GetSkills(monsterToConvert),
 
                 // Resistance and other
                 Resistances = Resistances.GetResistances(monsterToConvert), 
