@@ -84,7 +84,7 @@ namespace Converter
         public List<Special_Ability> Special_Abilities {get; set;}
         public List<Action> Actions { get; set; }
 
-        public List<Special_Ability> Legendary_Abilities { get; set; }
+        public List<Special_Ability> Legendary_Actions { get; set; }
 
 
         // Other

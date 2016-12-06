@@ -84,7 +84,7 @@ namespace Converter
                 // Actions and abilities
                 SpecialAbilities = monsterToConvert.Special_Abilities,
                 Actions = monsterToConvert.Actions,
-                LegendaryAbilities = monsterToConvert.Legendary_Abilities,
+                LegendaryAbilities = monsterToConvert.Legendary_Actions,
 
                 // Others
                 Senses = monsterToConvert.Senses,
