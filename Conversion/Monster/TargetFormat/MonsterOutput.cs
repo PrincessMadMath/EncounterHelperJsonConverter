@@ -29,7 +29,7 @@ namespace Converter
 
 
         // Saving throw
-        public Saves Saves { get; set; }
+        public List<SavingThrowDetail> Saves { get; set; }
 
         // Skills
         public Skills Skills {get; set;}
@@ -73,7 +73,7 @@ namespace Converter
 
 
                 // Saving throw
-                Saves = Saves.GetSave(monsterToConvert),
+                Saves = SavingThrow.GetSave(monsterToConvert),
 
                 // Skills
                 Skills = Skills.GetSkills(monsterToConvert),
