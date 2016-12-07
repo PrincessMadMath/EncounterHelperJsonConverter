@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Converter
 {
@@ -25,6 +26,8 @@ namespace Converter
 
     public class Program
     {
+        private static JsonSerializerSettings settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+
         public static int Main(string[] args)
         {
             return CommandLine.Parser.Default.ParseArguments<ConvertSpellOptions, ConvertMonsterOptions>(args)
@@ -39,7 +42,7 @@ namespace Converter
         {
             try
             {
-                var text =  System.IO.File.ReadAllText(options.InputFile);
+                var text = System.IO.File.ReadAllText(options.InputFile);
 
                 var spells = JsonConvert.DeserializeObject<List<Spell>>(text);
 
@@ -59,7 +62,7 @@ namespace Converter
                     }
                 }
 
-                var convertedSpellsJson = JsonConvert.SerializeObject(convertedSpells.Values.ToList());
+                var convertedSpellsJson = JsonConvert.SerializeObject(convertedSpells.Values.ToList(), settings);
                 System.IO.File.WriteAllText(options.OutputFile, convertedSpellsJson);
 
                 Console.WriteLine($"Convertion of {convertedSpells.Count()} spells completed successfully!");
@@ -67,11 +70,11 @@ namespace Converter
             }
             catch (Exception e)
             {
-                 Console.WriteLine($"Exception in spell conversion:");
-                 Console.WriteLine(e);
+                Console.WriteLine($"Exception in spell conversion:");
+                Console.WriteLine(e);
             }
 
-            
+
             return 0;
         }
 
@@ -80,7 +83,7 @@ namespace Converter
         {
             try
             {
-                var text =  System.IO.File.ReadAllText(options.InputFile);
+                var text = System.IO.File.ReadAllText(options.InputFile);
 
                 var monsters = JsonConvert.DeserializeObject<List<Monster>>(text);
 
@@ -92,7 +95,9 @@ namespace Converter
                     convertedMonsters.Add(monsterOutput);
                 }
 
-                var convertedMonstersJson = JsonConvert.SerializeObject(convertedMonsters);
+
+
+                var convertedMonstersJson = JsonConvert.SerializeObject(convertedMonsters, settings);
                 System.IO.File.WriteAllText(options.OutputFile, convertedMonstersJson);
 
                 Console.WriteLine($"Convertion of {convertedMonsters.Count()} monsters completed successfully!");
@@ -100,8 +105,8 @@ namespace Converter
             }
             catch (Exception e)
             {
-                 Console.WriteLine($"Exception in monster conversion:");
-                 Console.WriteLine(e);
+                Console.WriteLine($"Exception in monster conversion:");
+                Console.WriteLine(e);
                 return 1;
             }
 
