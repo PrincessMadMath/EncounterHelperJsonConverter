@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Converter
@@ -20,7 +21,7 @@ namespace Converter
 
         public int HitPoints { get; set; }
 
-        public string Hit_dice { get; set; }
+        public string HitDice { get; set; }
 
         public string Speed { get; set; }
 
@@ -39,10 +40,10 @@ namespace Converter
         public Resistances Resistances { get; set; }
 
         //
-        public List<Special_Ability> SpecialAbilities { get; set; }
-        public List<Action> Actions { get; set; }
+        public List<TargetSpecialAbility> SpecialAbilities { get; set; }
+        public List<TargetAction> Actions { get; set; }
 
-        public List<Special_Ability> LegendaryAbilities { get; set; }
+        public List<TargetSpecialAbility> LegendaryAbilities { get; set; }
 
 
         // Other
@@ -65,7 +66,7 @@ namespace Converter
                 // Enconter stat
                 ArmorClass = int.Parse(monsterToConvert.Armor_class ?? "10"),
                 HitPoints = int.Parse(monsterToConvert.Hit_points),
-                Hit_dice = monsterToConvert.Hit_dice,
+                HitDice = monsterToConvert.Hit_dice,
                 Speed = monsterToConvert.Speed,
 
                 // Stats
@@ -82,9 +83,9 @@ namespace Converter
                 Resistances = Resistances.GetResistances(monsterToConvert), 
 
                 // Actions and abilities
-                SpecialAbilities = monsterToConvert.Special_Abilities,
-                Actions = monsterToConvert.Actions,
-                LegendaryAbilities = monsterToConvert.Legendary_Actions,
+                SpecialAbilities = monsterToConvert.Special_Abilities?.Select(item => item.Convert()).ToList(),
+                Actions = monsterToConvert.Actions?.Select(item => item.Convert()).ToList(),
+                LegendaryAbilities = monsterToConvert.Legendary_Actions?.Select(item => item.Convert()).ToList(),
 
                 // Others
                 Senses = monsterToConvert.Senses,

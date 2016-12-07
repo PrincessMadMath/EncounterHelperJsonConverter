@@ -1,6 +1,7 @@
+
 namespace Converter
 {
-    public class Action
+    public class SpecialAbility
     {
 
         public string Name { get; set; }
@@ -8,18 +9,14 @@ namespace Converter
 
         public string attack_bonus { get; set; }
 
-        public string damage_dice { get; set; }
 
-        public string damage_bonus { get; set; }
-
-        public TargetAction Convert()
+        public TargetSpecialAbility Convert()
         {
-            return new TargetAction(){
+            return new TargetSpecialAbility()
+            {
                 Name = this.Name,
                 Desc = this.desc,
                 AttackBonus = this.attack_bonus,
-                DamageDice = this.damage_dice,
-                DamageBonus = this.damage_bonus
             };
         }
     }

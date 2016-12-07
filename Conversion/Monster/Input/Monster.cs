@@ -82,10 +82,10 @@ namespace Converter
         public string Condition_immunities { get; set; }
 
         //
-        public List<Special_Ability> Special_Abilities {get; set;}
+        public List<SpecialAbility> Special_Abilities {get; set;}
         public List<Action> Actions { get; set; }
 
-        public List<Special_Ability> Legendary_Actions { get; set; }
+        public List<SpecialAbility> Legendary_Actions { get; set; }
 
 
         // Other
