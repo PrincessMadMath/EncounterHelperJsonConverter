@@ -13,6 +13,10 @@ namespace Converter
 
         private static List<string> GetValue(string resistanceValue)
         {
+            if(string.IsNullOrEmpty(resistanceValue))
+            {
+                return new List<string>();
+            }
             return resistanceValue.Split(',').ToList();
         }
 
