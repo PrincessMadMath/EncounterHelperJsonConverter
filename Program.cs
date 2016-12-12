@@ -58,7 +58,7 @@ namespace Converter
                     else
                     {
                         spelloutput = SpellOutput.Convert(spell);
-                        convertedSpells.Add(spelloutput.Name, spelloutput);
+                        convertedSpells.Add(spell.Name, spelloutput);
                     }
                 }
 

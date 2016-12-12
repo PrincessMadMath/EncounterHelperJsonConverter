@@ -17,6 +17,8 @@ namespace Converter
 
         public Components Components { get; set; }
 
+        public bool CanBeRitual { get; set; }
+
         public string Duration { get; set; }
 
         public string Description { get; set; }
@@ -30,10 +32,11 @@ namespace Converter
             return new SpellOutput()
             {
                 Level = spellToConvert.Level,
-                Name = spellToConvert.Name,
+                Name = CleanName(spellToConvert.Name),
                 School = SchoolExtracter.GetSchool(spellToConvert),
                 CastingTime = spellToConvert.CastingTime,
                 Range = spellToConvert.Range,
+                CanBeRitual = CheckIfCanBeRitual(spellToConvert.Name),
                 Components = Components.GetComponents(spellToConvert),
                 Duration = spellToConvert.Duration,
                 Description = Components.TrimDescription(spellToConvert.Description),
@@ -41,9 +44,14 @@ namespace Converter
             };
         }
 
-        private static string ExtractSchool(string type)
+        private static string CleanName(string name)
         {
-            return "todo";
+            return name.Replace("(ritual)", "");
+        }
+
+        private static bool CheckIfCanBeRitual(string name)
+        {
+            return name.ToLower().Contains("ritual");
         }
     }
 }
