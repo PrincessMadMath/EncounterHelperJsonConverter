@@ -9,6 +9,8 @@ namespace Converter
 
         public string Name { get; set; }
 
+        public string Type { get; set; }
+
         public string School { get; set; }
 
         public string CastingTime { get; set; }
@@ -33,6 +35,7 @@ namespace Converter
             {
                 Level = spellToConvert.Level,
                 Name = CleanName(spellToConvert.Name),
+                Type = spellToConvert.Type,
                 School = SchoolExtracter.GetSchool(spellToConvert),
                 CastingTime = spellToConvert.CastingTime,
                 Range = spellToConvert.Range,
