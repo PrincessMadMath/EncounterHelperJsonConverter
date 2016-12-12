@@ -9,6 +9,7 @@ namespace Converter
         private static Regex ingredientRetriever = new Regex(@"^\(([^\)]*)\)");
         private static Regex goldRetriver = new Regex(@"(\d+,?\d+)\s*gp");
 
+        public bool Concentration {get; set;}
         public bool Somatic { get; set; }
         public bool Verbal { get; set; }
 
@@ -69,6 +70,7 @@ namespace Converter
 
             return new Components()
             {
+                Concentration = spell.Duration.Contains("Concentration"),
                 Somatic = spell.Components.Contains("S"),
                 Verbal = spell.Components.Contains("V"),
                 Material = needMaterial,
